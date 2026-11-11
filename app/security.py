@@ -3,7 +3,7 @@ import bcrypt
 import jwt
 from datetime import datetime, timedelta, timezone
 
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey_for_jwt_tokens")
+SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey_for_jwt_tokens_module10_secure_key_32bytes")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 

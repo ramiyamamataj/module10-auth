@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.database import Base, engine, get_db
@@ -5,9 +6,13 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserRead, Token
 from app.security import create_access_token
 
-Base.metadata.create_all(bind=engine)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create tables when the live server starts, not during unit test imports
+    Base.metadata.create_all(bind=engine)
+    yield
 
-app = FastAPI(title="Secure FastAPI User Auth Application")
+app = FastAPI(title="Secure FastAPI User Auth Application", lifespan=lifespan)
 
 @app.get("/")
 def read_root():
